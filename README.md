@@ -10,7 +10,7 @@ Doesn't do anything yet! Just a placeholder.
 
 (The MIT License)
 
-Copyright (c) 2011 Carson Christian &lt;cc@seekerbeer.com&gt;
+Copyright (c) 2012 Carson Christian &lt;cc@seekerbeer.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
