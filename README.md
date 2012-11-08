@@ -8,9 +8,11 @@ A node.js implementation of a data client (consumer) for the [BCS-460 and BCS-46
 
 ## Goals & Features
 
-One of the most difficult things about working with the BCS-46x API is the extensive amount of parsing that must be done to interperet the responses. Since the controllers make use of comma separated strings as their "format", much must be known about exactly where to look for the data that you need. One goal of this project is to abstract away all of the complexities of the device responses, and instead expose a logical tree of values ready to be accessed by path.
+One of the most difficult things about working with the BCS-46x API is the extensive amount of parsing that must be done to interpret the responses. Since the controllers make use of comma separated strings as their "format", much must be known about exactly where to look for the data that you need. One goal of this project is to abstract away all of the complexities of the device responses, and instead expose a logical tree of values ready to be accessed by path.
 
-Another primary goal is getting data out of the device so that you can do other things with it. For instance, I have a desire to log the data from BCS sensors regardless of running processes, sensor assignments, etc. This library make that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
+Another primary goal is getting data out of the device so that you can do other things with it. For instance, I have a desire to log the data from BCS sensors regardless of running processes, sensor assignments, etc. This library makes that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
+
+Note that I only have a BCS-460 to test against. If you use this library with a 462 and have any issues, please let me know.
 
 #### Features
 
@@ -50,7 +52,9 @@ Yields;
 	Conical
 	58.3
 
-This library follows the error, callback pattern common to node.js.
+#### Load Management
+
+This library follows the `error, callback` pattern common to node.js.
 
 You can hit `device.read()` as often as you want, as hard as you want. The read-through cache will make sure the device only has to answer as many questions as absolutely needed. Here's the cache stats after a test example with 60,000 simultaneous requests, spread across all 6 of the device's API read endpoints:
 
@@ -65,6 +69,40 @@ You can hit `device.read()` as often as you want, as hard as you want. The read-
   expires: { volatile: 0 },
   bytes: { read: 43210630, readThrough: 4951 } }
 ````
+
+## Dictionary Support
+
+The built in dictionary currently supports all the following API paths for reading, both for the BCS-460 & 462;
+
+* processes 0-7, ex `ps0`
+	* name, ex `ps0.name == 'Process 1'`
+	* status, ex `ps0.status == true || false`
+	* state *current*, ex `ps0.state == 0`
+	* state 0-7, ex `ps0.state0 === State 1`
+	* win 0-3, ex `ps0.win0 === Button 1`
+	* timer 0-3, ex `ps0.timer0 === Timer 1`
+* temps 0-4 *(460)*, 0-8 *(462)*, ex `temp`
+	* name, ex `temp.name0 == 'Probe Number One'`
+	* value, ex `temp.value0 == 147.5`
+	* setpoint, ex `temp.setpoint0 == 150`
+* inputs 0-3 *(460)*, 0-7 *(462)*, ex `input`
+	* name, ex `input.name0 == 'Input Number One`
+	* status, ex `input.status == true || false`
+* outputs 0-5 *(460)*, 0-17 *(462)*, ex `output`
+	* name, ex `output.name0 == 'Output Number One`
+	* status, ex `output.status == true || false`
+* `network`
+	* `network.staticAddress`
+	* `network.subnetMask`
+	* `network.gateway`
+	* `network.MAC`
+	* `network.currentIP`
+	* `network.DHCPEnabled`
+	* `network.packetsSent`
+	* `network.packetsReceived`
+* `system`
+	* `system.model == "BCS-460" || "BCS-462"`
+	* `system.fimware` ex `"BCS-460 v3.4.5"`
 
 ### License 
 
