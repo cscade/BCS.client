@@ -78,19 +78,19 @@ The built in dictionary currently supports all the following API paths for readi
 	* name, ex `ps0.name == 'Process 1'`
 	* status, ex `ps0.status == true || false`
 	* state *current*, ex `ps0.state == 0`
-	* state 0-7, ex `ps0.state0 === State 1`
-	* win 0-3, ex `ps0.win0 === Button 1`
-	* timer 0-3, ex `ps0.timer0 === Timer 1`
+	* state 0-7, ex `ps0.state0 === "State 1"`
+	* win 0-3, ex `ps0.win0 === "Button 1"`
+	* timer 0-3, ex `ps0.timer0 === "Timer 1"`
 * temps 0-4 *(460)*, 0-8 *(462)*, ex `temp`
-	* name, ex `temp.name0 == 'Probe Number One'`
+	* name, ex `temp.name0 == "Probe Number One"`
 	* value, ex `temp.value0 == 147.5`
 	* setpoint, ex `temp.setpoint0 == 150`
 * inputs 0-3 *(460)*, 0-7 *(462)*, ex `input`
-	* name, ex `input.name0 == 'Input Number One`
-	* status, ex `input.status == true || false`
+	* name, ex `input.name0 == "Input Number One"`
+	* status, ex `input.status0 == true || false`
 * outputs 0-5 *(460)*, 0-17 *(462)*, ex `output`
-	* name, ex `output.name0 == 'Output Number One`
-	* status, ex `output.status == true || false`
+	* name, ex `output.name0 == "Output Number One"`
+	* status, ex `output.status0 == true || false`
 * `network`
 	* `network.staticAddress`
 	* `network.subnetMask`
