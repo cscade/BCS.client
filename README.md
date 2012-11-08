@@ -72,6 +72,8 @@ You can hit `device.read()` as often as you want, as hard as you want. The read-
 
 ## Dictionary Support
 
+Any item in the dictionary can be used with `device.read`. ex. `device.read('ps0.state')` or `device.read('output.status0')`.
+
 The built in dictionary currently supports all the following API paths for reading, both for the BCS-460 & 462;
 
 * processes 0-7, ex `ps0`
