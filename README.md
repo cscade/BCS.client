@@ -52,9 +52,9 @@ Yields;
 	Conical
 	58.3
 
-#### Load Management
-
 This library follows the `error, callback` pattern common to node.js.
+
+#### Load Management
 
 You can hit `device.read()` as often as you want, as hard as you want. The read-through cache will make sure the device only has to answer as many questions as absolutely needed. Here's the cache stats after a test example with 60,000 simultaneous requests, spread across all 6 of the device's API read endpoints:
 
