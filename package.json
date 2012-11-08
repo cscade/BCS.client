@@ -1,6 +1,6 @@
 {
     "name": "BCS.client",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "a polling data client for the BCS series of brewery automation controllers",
     "keywords": [
         "bcs-460",
@@ -10,7 +10,7 @@
         "automation",
         "brewery",
         "controller",
-		"logging"
+        "logging"
     ],
     "author": "Carson Christian <cc@seekerbeer.com>",
     "homepage": "https://github.com/cscade/BCS.client",
