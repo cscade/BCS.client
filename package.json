@@ -22,6 +22,8 @@
         "node": "*"
     },
     "dependencies": {
+		"async": "*",
+		"request": "*",
     	"xtend": "*"
     }
 }
