@@ -8,7 +8,7 @@ A node.js implementation of a data client (consumer) for the [BCS-460 and BCS-46
 
 ## Goals & Features
 
-One of the most difficult things about working with the BCS-46x API is the extensive amount of parsing that must be done to interperet the responses. Since the controllers make use of comma separated strings as their "format", much must be known about exactly where to look for the data that you need. One goal of this project is to abstract away all of the complexities of the device responses, and instead expose a logical tree of values ready to be accessed by path.
+One of the most difficult things about working with the BCS-46x API is the extensive amount of parsing that must be done to interpret the responses. Since the controllers make use of comma separated strings as their "format", much must be known about exactly where to look for the data that you need. One goal of this project is to abstract away all of the complexities of the device responses, and instead expose a logical tree of values ready to be accessed by path.
 
 Another primary goal is getting data out of the device so that you can do other things with it. For instance, I have a desire to log the data from BCS sensors regardless of running processes, sensor assignments, etc. This library make that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
 
