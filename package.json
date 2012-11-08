@@ -1,6 +1,6 @@
 {
     "name": "bcs.client",
-    "version": "0.0.3",
+    "version": "0.1.0",
     "description": "a polling data client for the BCS series of brewery automation controllers",
     "keywords": [
         "bcs-460",
@@ -22,8 +22,8 @@
         "node": "*"
     },
     "dependencies": {
-		"async": "*",
-		"request": "*",
-    	"xtend": "*"
+        "async": "*",
+        "request": "*",
+        "xtend": "*"
     }
 }
