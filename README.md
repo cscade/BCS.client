@@ -12,6 +12,8 @@ One of the most difficult things about working with the BCS-46x API is the exten
 
 Another primary goal is getting data out of the device so that you can do other things with it. For instance, I have a desire to log the data from BCS sensors regardless of running processes, sensor assignments, etc. This library makes that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
 
+Note that I only have a BCS-460 to test against. If you use this library with a 462 and have any issues, please let me know.
+
 #### Features
 
 * Integrate real-time BCS data into any node.js application on the same network.
