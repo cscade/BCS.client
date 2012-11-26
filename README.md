@@ -106,6 +106,12 @@ The built in dictionary currently supports all the following API paths for readi
 	* `system.model == "BCS-460" || "BCS-462"`
 	* `system.fimware` ex `"BCS-460 v3.4.5"`
 
+## Test Coverage
+
+Clone the repository and install dev dependencies with `git clone git://github.com/cscade/BCS.client.git && cd BCS.client && npm install`.
+
+To run all tests, run `make test TARGET_HOST=192.168.1.100 TARGET_PORT=80`, substituting your BCS device's ip and port.
+
 ### License 
 
 (The MIT License)

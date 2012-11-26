@@ -6,10 +6,10 @@
 # 
 
 test-device:
-	./node_modules/.bin/mocha --reporter spec ./test/device.js
+	./node_modules/.bin/mocha --reporter list ./test/device.js
 	
 test-cache:
-	./node_modules/.bin/mocha --reporter spec ./test/cache.js
+	./node_modules/.bin/mocha --slow 5000 --reporter list ./test/cache.js
 
 test: test-device test-cache
 
