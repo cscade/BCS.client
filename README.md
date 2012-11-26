@@ -29,10 +29,10 @@ Include the module in your `package.json`, or manually install with `npm install
 ````javascript
 var Device = require('bcs.client');
 
-var device = new Device('192.168.1.1', function (e, state) {
+var device = new Device('192.168.1.1', function (e, info) {
 	
-	// device state after setup
-	console.log(state);
+	// device info after setup
+	console.log(info);
 	
 	// get the name of temp probe 2
 	device.read('temp.name2', function (e, name) {
@@ -57,17 +57,18 @@ Yields, for example;
 
 ### new Device(hostname, [port], callback)
 
-Returns a new `Device` instance, connected to the BCS device at the given address, defaulting to port **80**.
+Returns a new `Device` instance, connected to the BCS device at the given address.
 
-callback parameters are:
-
-* `err` - *Error instance*, or *null/undefined*
-* `info` - object containing *ready*, *type*, and *firmware* keys about the device
+* `hostname` - ip address or host name of device
+* `port` - port of device [80]
+* `callback(err, info)`
+	* `err` - *Error instance*, or *null/undefined*
+	* `info` - object containing *ready*, *type*, and *firmware* keys about the device
 
 ### device.read(target, callback)
 
 * `target` - dictionary key you wish to read, ex. *temp.name0*
-* `callback`
+* `callback(err, response)`
 	* `err` - *Error instance*, or *null/undefined*
 	* `response` - the dictionary response from the device
 
@@ -131,7 +132,7 @@ Clone the repository and install dev dependencies with `git clone git://github.c
 
 To run all tests, run `make test TARGET_HOST=192.168.1.100 TARGET_PORT=80`, substituting your BCS device's ip and port.
 
-### License 
+## License 
 
 (The MIT License)
 
