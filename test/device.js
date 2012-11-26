@@ -28,6 +28,9 @@ describe('Device', function () {
 				device.info.type.should.be.a('string');
 				device.info.firmware.should.be.a('string');
 			});
+			it('should be a BCS-460 or BCS-462', function () {
+				(device.info.type === 'BCS-460' || device.info.type === 'BCS-462').should.be.true;
+			});
 		});
 		describe('of an inactive or unreachable device', function () {
 			var device;
