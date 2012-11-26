@@ -14,14 +14,15 @@ Another primary goal is getting data out of the device so that you can do other 
 
 Note that I only have a BCS-460 to test against. If you use this library with a 462 and have any issues, please let me know.
 
-#### Features
+#### Advantages vs. Native API
 
-* Integrate real-time BCS data into any node.js application on the same network.
+* Integrate real-time BCS data into any node.js application on a reachable network.
 * Read structures without knowing (or caring) how to get at them through the native API. It's a simple as `device.read('temp.value0')`.
 * Automatic read-through caching engine drastically reduces BCS device load while supporting unlimited simultaneous requests.
 * Rate limiting ensures that even structures which must be refreshed often (like temperatures, for example) don't cause undue BCS device load.
+* Wraps all device communications in node-standard, error-first callback patterns.
 
-## Using
+## Quick Start
 
 Include the module in your `package.json`, or manually install with `npm install bcs.client`.
 
@@ -46,29 +47,29 @@ var device = new Device('192.168.1.1', function (e, state) {
 });
 ````
 
-Yields;
+Yields, for example;
 
 	{ ready: true, type: 'BCS-460', firmware: 'BCS-460 v3.4.5' }
 	Conical
 	58.3
 
-This library follows the `error, callback` pattern common to node.js.
+## Methods
 
-#### Load Management
+### new Device(hostname, [port], callback)
 
-You can hit `device.read()` as often as you want, as hard as you want. The read-through cache will make sure the device only has to answer as many questions as absolutely needed. Here's the cache stats after a test example with 60,000 simultaneous requests, spread across all 6 of the device's API read endpoints:
+Returns a new `Device` instance, connected to the BCS device at the given address, defaulting to port **80**.
 
-````javascript
-// read-through cache statistics, 60k simultanous requests to 6 endpoints.
-// that's a lot of bytes the device didn't need to handle!
-{ hits: 59994,
-  misses: 6,
-  requests: 6,
-  responses: 6,
-  errors: 0,
-  expires: { volatile: 0 },
-  bytes: { read: 43210630, readThrough: 4951 } }
-````
+callback parameters are:
+
+* `err` - *Error instance*, or *null/undefined*
+* `info` - object containing *ready*, *type*, and *firmware* keys about the device
+
+### device.read(target, callback)
+
+* `target` - dictionary key you wish to read, ex. *temp.name0*
+* `callback`
+	* `err` - *Error instance*, or *null/undefined*
+	* `response` - the dictionary response from the device
 
 ## Dictionary Support
 
@@ -106,6 +107,24 @@ The built in dictionary currently supports all the following API paths for readi
 	* `system.model == "BCS-460" || "BCS-462"`
 	* `system.fimware` ex `"BCS-460 v3.4.5"`
 
+## Load Management
+
+You can hit `device.read()` as often as you want, as hard as you want. The read-through cache will make sure the device only has to answer as many questions as absolutely needed. Here's the cache stats after a test example with 60,000 simultaneous requests, spread across all 6 of the device's API read endpoints:
+
+````javascript
+// read-through cache statistics, 60k simultanous requests to 6 endpoints.
+// that's a lot of bytes the device didn't need to handle!
+{ hits: 59994,
+  misses: 6,
+  requests: 6,
+  responses: 6,
+  errors: 0,
+  expires: { volatile: 0 },
+  bytes: { read: 43210630, readThrough: 4951 } }
+````
+
+Specifically, cached results will be returned for all structures less than 800ms old. Anything more out-of-date than that will cause a device request.
+	
 ## Test Coverage
 
 Clone the repository and install dev dependencies with `git clone git://github.com/cscade/BCS.client.git && cd BCS.client && npm install`.
