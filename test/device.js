@@ -31,6 +31,10 @@ describe('Device', function () {
 			it('should be a BCS-460 or BCS-462', function () {
 				(device.info.type === 'BCS-460' || device.info.type === 'BCS-462').should.be.true;
 			});
+			it('should be using the correct dictionary', function () {
+				if (device.info.type === 'BCS-460') (require('../lib/dictionary-460') === device.dictionary).should.be.true;
+				if (device.info.type === 'BCS-462') (require('../lib/dictionary-462') === device.dictionary).should.be.true;
+			});
 		});
 		describe('of an inactive or unreachable device', function () {
 			var device;
