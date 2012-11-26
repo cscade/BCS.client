@@ -25,5 +25,9 @@
         "async": "*",
         "request": "*",
         "xtend": "*"
-    }
+	},
+	"devDependencies": {
+		"mocha": "*",
+		"should": "*"
+	}
 }
