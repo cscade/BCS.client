@@ -2,17 +2,11 @@
 
 A node.js implementation of a data client (consumer) for the [BCS-460 and BCS-462][ecc] brewery automation controllers. BCS.client uses the [Open Interface API][api] native to BCS devices to communicate with them over http.
 
-## Installing
-
-`npm install bcs.client`
-
 ## Goals & Features
 
 One of the most difficult things about working with the BCS-46x API is the extensive amount of parsing that must be done to interpret the responses. Since the controllers make use of comma separated strings as their "format", much must be known about exactly where to look for the data that you need. One goal of this project is to abstract away all of the complexities of the device responses, and instead expose a logical tree of values ready to be accessed by path.
 
 Another primary goal is getting data out of the device so that you can do other things with it. For instance, I have a desire to log the data from BCS sensors regardless of running processes, sensor assignments, etc. This library makes that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
-
-Note that I only have a BCS-460 to test against. If you use this library with a 462 and have any issues, please let me know.
 
 #### Advantages vs. Native API
 
@@ -24,7 +18,7 @@ Note that I only have a BCS-460 to test against. If you use this library with a 
 
 ## Quick Start
 
-Include the module in your `package.json`, or manually install with `npm install bcs.client`.
+Include the `bcs.client` module in your `package.json`, or manually install with `npm install bcs.client`.
 
 ````javascript
 var Device = require('bcs.client');
@@ -130,7 +124,15 @@ Specifically, cached results will be returned for all structures less than 800ms
 
 Clone the repository and install dev dependencies with `git clone git://github.com/cscade/BCS.client.git && cd BCS.client && npm install`.
 
-To run all tests, run `make test TARGET_HOST=192.168.1.100 TARGET_PORT=80`, substituting your BCS device's ip and port.
+Test coverage includes;
+
+* `Device`
+* `Cache`
+* `dictionary`
+
+To run Device and Cache tests, run `make test TARGET_HOST=192.168.1.100 TARGET_PORT=80`, substituting your BCS device's ip and port.
+
+Dictionary tests must be run separately, as they do not auto-detect a target device type. Include the TARGET_HOST and TARGET_PORT arguments as above. `make test-dictionary-460` or `make test-dictionary-462`.
 
 ## License 
 
