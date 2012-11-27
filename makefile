@@ -6,16 +6,16 @@
 # 
 
 test-device:
-	./node_modules/.bin/mocha --reporter list ./test/device.js
+	./node_modules/.bin/mocha --reporter spec ./test/device.js
 	
 test-cache:
-	./node_modules/.bin/mocha --slow 5000 --reporter list ./test/cache.js
+	./node_modules/.bin/mocha --slow 5000 --reporter spec ./test/cache.js
 	
 test-dictionary-460:
-	./node_modules/.bin/mocha --reporter list ./test/dictionary-460.js
+	./node_modules/.bin/mocha --reporter spec ./test/dictionary-460.js
 	
 test-dictionary-462:
-	./node_modules/.bin/mocha --reporter list ./test/dictionary-462.js
+	./node_modules/.bin/mocha --reporter spec ./test/dictionary-462.js
 
 test: test-device test-cache
 
