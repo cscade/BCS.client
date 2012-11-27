@@ -1,3 +1,9 @@
+## 0.1.3 - 2012-11-27
+
+* add full test suite for device, cache, and dictionary
+* separate & flatten BCS-460/462 dictionaries, device detection auto-selects
+* fix incorrect responses for temp setpoints on BCS-462
+
 ## 0.1.2 - 2012-11-20
 
 * add device communication timeout
