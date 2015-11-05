@@ -1,6 +1,6 @@
 {
     "name": "bcs.client",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "a read-through cached API client for the BCS-460/462 series of brewery automation controllers with high level abstraction",
     "keywords": [
         "bcs-460",
