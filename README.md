@@ -1,5 +1,7 @@
 # BCS.client
 
+PLEASE NOTE! This library is designed to work with BCS 1.x series firmwares only. If you have updated to firmware in the 2.x series, this library will not work for you. As BCS series 2.x firmware is considerably more user-friendly, future development of this library is unlikely.
+
 A node.js implementation of a data client (consumer) for the [BCS-460 and BCS-462][ecc] brewery automation controllers. BCS.client uses the [Open Interface API][api] native to BCS devices to communicate with them over http.
 
 ## Goals & Features
