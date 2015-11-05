@@ -7,7 +7,7 @@
 
 var target = {
 	host: process.env.TARGET_HOST,
-	port: process.env.TARGET_PORT
+	port: process.env.TARGET_PORT || 80
 };
 
 var should = require('should');
