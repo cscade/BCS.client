@@ -1,20 +1,20 @@
 # BCS.client
 
-PLEASE NOTE! If you have updated to firmware in the 4.x series, this library will not work for you. As BCS series 4.x firmware APIs are considerably more user-friendly, future development of this library is unlikely.
+*PLEASE NOTE!* The current version of this library requires BCS firmware 4.0.0 or higher.
 
 A node.js implementation of a data client (consumer) for the [BCS-460 and BCS-462][ecc] brewery automation controllers. BCS.client uses the [Open Interface API][api] native to BCS devices to communicate with them over http.
 
-## Goals & Features
+## Purpose
 
-One of the most difficult things about working with the BCS-46x API is the extensive amount of parsing that must be done to interpret the responses. Since the controllers make use of comma separated strings as their "format", much must be known about exactly where to look for the data that you need. One goal of this project is to abstract away all of the complexities of the device responses, and instead expose a logical tree of values ready to be accessed by path.
+Long-term process logging is a primary goal for this project. This library makes that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI, nor does it provide logging in of itself. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
 
-Another primary goal is getting data out of the device so that you can do other things with it. For instance, I have a desire to log the data from BCS sensors regardless of running processes, sensor assignments, etc. This library makes that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
+In addition to providing a simple, easy to use communications library, read-through caching has been implemented and thoroughly battle tested. This ensures that any amount of load applied to the library can be tolerated, without saturating the BCS device with HTTP requests.
 
 #### Advantages vs. Native API
 
 * Integrate real-time BCS data into any node.js application on a reachable network.
-* Read structures without knowing (or caring) how to get at them through the native API. It's a simple as `device.read('temp.value0')`.
-* Automatic read-through caching engine drastically reduces BCS device load while supporting unlimited simultaneous requests.
+* Read structures without knowing (or caring) how to get at them through the native API. It's a simple as `device.read()`.
+* Automatic read-through caching engine drastically reduces BCS device load while supporting theoretically unlimited simultaneous requests.
 * Rate limiting ensures that even structures which must be refreshed often (like temperatures, for example) don't cause undue BCS device load.
 * Wraps all device communications in node-standard, error-first callback patterns.
 
