@@ -31,7 +31,7 @@ describe('Cache', function () {
 			cache.stats.errors.should.equal(0);
 		});
 		// static (non-volatile) structures
-		['sysname.dat', 'ipaddr.dat'].forEach(function (struct) {
+		['device', 'network'].forEach(function (struct) {
 			describe('to ' + struct, function () {
 				it('should not cause multiple device requests', function (done) {
 					cache.get(struct, function (e, data) {
@@ -50,7 +50,7 @@ describe('Cache', function () {
 			});
 		});
 		// volatile structures
-		['ultemp.dat', 'ulsysio.dat', 'ucsysio.dat', 'enetlog.dat'].forEach(function (struct) {
+		['alarm', 'din', 'output', 'state', 'system', 'temp'].forEach(function (struct) {
 			describe('to ' + struct, function () {
 				it('should cause multiple device requests', function (done) {
 					cache.get(struct, function (e, data) {
