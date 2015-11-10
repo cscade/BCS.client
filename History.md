@@ -1,3 +1,7 @@
+## 1.0.1 - 205-11-10
+
+* use setImmediate() instead of process.nextTick() for compatibility with modern node.js versions
+
 ## 1.0.0 - 2015-11-10
 
 * full rewrite to support 4.x series BCS firmware
