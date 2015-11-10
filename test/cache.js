@@ -22,7 +22,7 @@ describe('Cache', function () {
 		cache.location.host.should.equal(target.host);
 		cache.location.port.should.equal(target.port);
 	});
-	describe('multiple structure requests', function () {
+	describe('multiple endpoint requests', function () {
 		this.timeout(10000);
 		beforeEach(function () {
 			cache = new Cache({ host: target.host, port: target.port });
@@ -30,14 +30,14 @@ describe('Cache', function () {
 		afterEach(function () {
 			cache.stats.errors.should.equal(0);
 		});
-		// static (non-volatile) structures
-		['sysname.dat', 'ipaddr.dat'].forEach(function (struct) {
-			describe('to ' + struct, function () {
+		// static (non-volatile) endpoints
+		['device', 'network'].forEach(function (endpoint) {
+			describe('to ' + endpoint, function () {
 				it('should not cause multiple device requests', function (done) {
-					cache.get(struct, function (e, data) {
+					cache.get(endpoint, function (e, data) {
 						if (e) throw e;
 						setTimeout(function () {
-							cache.get(struct, function (e, data) {
+							cache.get(endpoint, function (e, data) {
 								if (e) throw e;
 								cache.stats.hits.should.equal(1);
 								cache.stats.misses.should.equal(1);
@@ -49,14 +49,14 @@ describe('Cache', function () {
 				});
 			});
 		});
-		// volatile structures
-		['ultemp.dat', 'ulsysio.dat', 'ucsysio.dat', 'enetlog.dat'].forEach(function (struct) {
-			describe('to ' + struct, function () {
+		// volatile endpoints
+		['alarm', 'din', 'output', 'state', 'system', 'temp'].forEach(function (endpoint) {
+			describe('to ' + endpoint, function () {
 				it('should cause multiple device requests', function (done) {
-					cache.get(struct, function (e, data) {
+					cache.get(endpoint, function (e, data) {
 						if (e) throw e;
 						setTimeout(function () {
-							cache.get(struct, function (e, data) {
+							cache.get(endpoint, function (e, data) {
 								if (e) throw e;
 								cache.stats.hits.should.equal(0);
 								cache.stats.misses.should.equal(2);

@@ -1,3 +1,7 @@
+## 1.0.0 - 2015-11-10
+
+* full rewrite to support 4.x series BCS firmware
+
 ## 0.1.3 - 2012-11-27
 
 * add full test suite for device, cache, and dictionary
