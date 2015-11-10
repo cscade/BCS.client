@@ -1,19 +1,18 @@
 # BCS.client
 
-*PLEASE NOTE!* The current version of this library requires BCS firmware 4.0.0 or higher.
+**PLEASE NOTE!** The current version of this library requires BCS firmware 4.0.0 or higher.
 
-A node.js implementation of a data client (consumer) for the [BCS-460 and BCS-462][ecc] brewery automation controllers. BCS.client uses the [Open Interface API][api] native to BCS devices to communicate with them over http.
+A node.js implementation of a data client (consumer) for the [BCS-460 and BCS-462][ecc] brewery automation controllers. BCS.client uses the [API][api-docs] native to BCS devices to communicate with them over http.
 
 ## Purpose
 
-Long-term process logging is a primary goal for this project. This library makes that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI, nor does it provide logging in of itself. Instead, it aims to enable inter-operability with other projects, processes, and devices, by taking the pain out of communications.
+Long-term process logging is a primary goal for this project. This library makes that easy to do, and easy to automate. This project does not attempt to replace any of the functionality of the BCS UI, nor does it provide logging in of itself. Instead, it aims to enable inter-operability with other projects, processes, and devices by providing a robust consistent interface.
 
 In addition to providing a simple, easy to use communications library, read-through caching has been implemented and thoroughly battle tested. This ensures that any amount of load applied to the library can be tolerated, without saturating the BCS device with HTTP requests.
 
-#### Advantages vs. Native API
+#### Advantages vs. Direct API Calls
 
-* Integrate real-time BCS data into any node.js application on a reachable network.
-* Read structures without knowing (or caring) how to get at them through the native API. It's a simple as `device.read()`.
+* Easily integrate real-time BCS data into any node.js application on a reachable network.
 * Automatic read-through caching engine drastically reduces BCS device load while supporting theoretically unlimited simultaneous requests.
 * Rate limiting ensures that even structures which must be refreshed often (like temperatures, for example) don't cause undue BCS device load.
 * Wraps all device communications in node-standard, error-first callback patterns.
@@ -29,26 +28,36 @@ var device = new Device('192.168.1.1', function (e, info) {
 	
 	// device info after setup
 	console.log(info);
+	/*
+		{
+		  "type": "BCS-460",
+		  "version": "4.0.0",
+		  "build": "c5bda61",
+		  "name": "Seeker Brewing Co."
+		}
+	*/
 	
-	// get the name of temp probe 2
-	device.read('temp.name2', function (e, name) {
-		console.log(name);
-	});
-	
-	// get the value of temp probe 2
-	device.read('temp.value2', function (e, temp) {
-		console.log(temp);
+	// get the current details of temp probe 2
+	device.read('temp/2', function (e, probe) {
+		console.log(probe);
+		/*
+			{
+			  "name": "Conical B",
+			  "temp": 665,
+			  "setpoint": 690,
+			  "resistance": 12969,
+			  "enabled": true,
+			  "coefficients": [
+			    0.0011371546,
+			    0.0002325949,
+			    9.5299999999e-8
+			  ]
+			}
+		*/
 	});
 	
 });
 ````
-
-Yields, for example;
-
-	{ ready: true, type: 'BCS-460', firmware: 'BCS-460 v3.4.5' }
-	Conical
-	58.3
-
 ## Methods
 
 ### new Device(hostname, [port], callback)
@@ -59,54 +68,18 @@ Returns a new `Device` instance, connected to the BCS device at the given addres
 * `port` - port of device [80]
 * `callback(err, info)`
 	* `err` - *Error instance*, or *null/undefined*
-	* `info` - object containing *ready*, *type*, and *firmware* keys about the device
+	* `info` - device info object
 
 ### device.read(target, callback)
 
-* `target` - dictionary key you wish to read, ex. *temp.name0*
-* `callback(err, response)`
+* `target` - endpoint you wish to read, ex. *temp/0*
+* `callback(err, json)`
 	* `err` - *Error instance*, or *null/undefined*
-	* `response` - the dictionary response from the device
-
-## Dictionary Support
-
-Any item in the dictionary can be used with `device.read`. ex. `device.read('ps0.state')` or `device.read('output.status0')`.
-
-The built in dictionary currently supports all the following API paths for reading, both for the BCS-460 & 462;
-
-* processes 0-7, ex `ps0`
-	* name, ex `ps0.name == 'Process 1'`
-	* status, ex `ps0.status == true || false`
-	* state *current*, ex `ps0.state == 0`
-	* state 0-7, ex `ps0.state0 === "State 1"`
-	* win 0-3, ex `ps0.win0 === "Button 1"`
-	* timer 0-3, ex `ps0.timer0 === "Timer 1"`
-* temps 0-4 *(460)*, 0-8 *(462)*, ex `temp`
-	* name, ex `temp.name0 == "Probe Number One"`
-	* value, ex `temp.value0 == 147.5`
-	* setpoint, ex `temp.setpoint0 == 150`
-* inputs 0-3 *(460)*, 0-7 *(462)*, ex `input`
-	* name, ex `input.name0 == "Input Number One"`
-	* status, ex `input.status0 == true || false`
-* outputs 0-5 *(460)*, 0-17 *(462)*, ex `output`
-	* name, ex `output.name0 == "Output Number One"`
-	* status, ex `output.status0 == true || false`
-* `network`
-	* `network.staticAddress`
-	* `network.subnetMask`
-	* `network.gateway`
-	* `network.MAC`
-	* `network.currentIP`
-	* `network.DHCPEnabled`
-	* `network.packetsSent`
-	* `network.packetsReceived`
-* `system`
-	* `system.model == "BCS-460" || "BCS-462"`
-	* `system.fimware` ex `"BCS-460 v3.4.5"`
+	* `json` - the endpoint json from the device
 
 ## Load Management
 
-You can hit `device.read()` as often as you want, as hard as you want. The read-through cache will make sure the device only has to answer as many questions as absolutely needed. Here's the cache stats after a test example with 60,000 simultaneous requests, spread across all 6 of the device's API read endpoints:
+You can hit `device.read()` as often as you want, as hard as you want. The read-through cache will make sure the device only has to answer as many questions as absolutely needed. Here's the cache stats after a test example with 60,000 simultaneous requests, spread across 6 of the device's API read endpoints:
 
 ````javascript
 // read-through cache statistics, 60k simultanous requests to 6 endpoints.
@@ -120,7 +93,7 @@ You can hit `device.read()` as often as you want, as hard as you want. The read-
   bytes: { read: 43210630, readThrough: 4951 } }
 ````
 
-Specifically, cached results will be returned for all structures less than 800ms old. Anything more out-of-date than that will cause a device request.
+Specifically, cached results will be returned for all endpoints less than 800ms old. Anything more out-of-date than that will cause a device request. Currently the `device` and `network` endpoints are considered static, and will be cached indefinitely.
 	
 ## Test Coverage
 
@@ -130,11 +103,8 @@ Test coverage includes;
 
 * `Device`
 * `Cache`
-* `dictionary`
 
 To run Device and Cache tests, run `make test TARGET_HOST=192.168.1.100 TARGET_PORT=80`, substituting your BCS device's ip and port.
-
-Dictionary tests must be run separately, as they do not auto-detect a target device type. Include the TARGET_HOST and TARGET_PORT arguments as above. `make test-dictionary-460` or `make test-dictionary-462`.
 
 ## License 
 
@@ -162,4 +132,4 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [ecc]: http://www.embeddedcontrolconcepts.com/ "Welcome to Embedded Control Concepts"
-[api]: http://wiki.embeddedcc.com/index.php?title=Open_Interface_API "Open Interface API - ECC Learning Center"
+[api-docs]: http://www.embeddedcc.com/api-docs/ "Open Interface API - ECC Learning Center"
